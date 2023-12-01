@@ -1,0 +1,903 @@
+
+<html lang="en">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <div id="investCal">
+        <div id="container">
+            <div id="header" class="row" > <!-- Title -->
+                <div id="chooseAProductText">
+                    <span class="fWeight600 mLeft40" >Choose a product</span>
+                </div>
+
+                <div class="row">
+                    <input class="hidden" type="radio" id="freeRangeCow" value="freeRangeCow" name="cow" onchange="selectCow(0)" checked>
+                    <label class="cowRadio fWeight400" style="margin-right: 20px;" for="freeRangeCow">FREE RANGE COW</label><br>
+                
+                    <input class="hidden" type="radio" id="pregnantCow" value="female" name="cow" onchange="selectCow(1)">
+                    <label class="mLeft10 cowRadio fWeight400" for="pregnantCow">PEGNANT COW</label><br>
+                </div>
+            </div>
+
+            <div class="row"> <!-- Inputs -->
+                <div class="contentPrimaryContainer col" >
+                    <div class="content">
+                        <span class="fWeight700 heading">INVESTMENT (What I put in)</span>
+                        
+                        <div> <!-- checkbox -->
+                            <label class="checkBoxContainer row" style="margin-top: 32px;">
+                                <span class="fWeight600" style="order: 2; margin-left: 15px;">Re-invest (Each year in cows)</span>
+                                <input id="reInvestBox" type="checkbox" onchange="calculate()">
+                                <div class="check"></div>
+                            </label>
+                        </div>
+
+                        <span class="divider" style="margin: 25px 0 14px 0;"></span>
+    
+                        <span class="fWeight600" >How many cows would you like to start with?</span>
+
+                        <div>
+                            <span style="margin: -4px 0 2px 0;" class="sliderLabelCows numLarge fWeight700" >10</span>
+
+                            <span class="fWeight700" style="font-size: 16; float: right; margin-top: 40px">R <span style="font-size: 16" id="initailInvestText"></span></span>
+                            
+                            <div class="sliderOuterContainer"> <!-- slider -->
+                                <div class="slidecontainer">
+                                    <input id="rangeSliderCows" type="range" min="1" max="200" value="5" class="slider" oninput="updateRangeVal()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <span class="divider" style="margin: 27px 0 13px 0;"></span>
+
+                        <span class="fWeight600">For how many years will you invest?</span>
+    
+                        <div>
+                            <span style="margin: 7px 0 0 0;" class="sliderLabelYears numLarge fWeight700">10</span>
+
+                            <span class="fWeight600" style="margin-left: 15px;">years</span>
+        
+                            <div class="sliderOuterContainer"> <!-- slider -->
+                                <div class="slidecontainer">
+                                    <input id="rangeSliderYears" type="range" min="1" max="20" value="5" class="slider" oninput="updateRangeVal()">
+                                </div>
+                            </div>
+                        </div>
+
+                            <span class="divider" style="margin: 33px 0 14px 0;"></span>
+
+                            <span class="fWeight600">Rate of return</span>
+
+                            <div id="pregnantReturns" class="ror row"style="margin: 28px 0 0 0;">
+                                <input class="hidden" type="radio" id="ROR10" value="10" name="pregnantROR" onchange="updateROR(10)" checked>
+                                <label class="rorRadio fWeight400" for="ROR10">10 %</label><br>
+                            
+                                <input class="hidden" type="radio" id="ROR11" value="11" name="pregnantROR" onchange="updateROR(11)">
+                                <label class="mLeft20 rorRadio fWeight400" for="ROR11">11 %</label><br>
+
+                                <input class="hidden" type="radio" id="ROR12" value="12" name="pregnantROR" onchange="updateROR(12)">
+                                <label class="mLeft20 rorRadio fWeight400" for="ROR12">12 %</label><br>
+
+                                <input class="hidden" type="radio" id="ROR13" value="13" name="pregnantROR" onchange="updateROR(13)">
+                                <label class="mLeft20 rorRadio fWeight400" for="ROR13">13 %</label><br>
+
+                                <input class="hidden" type="radio" id="ROR14" value="14" name="pregnantROR" onchange="updateROR(14)">
+                                <label class="mLeft20 rorRadio fWeight400" for="ROR14">14 %</label><br>
+                            </div>
+
+                            <div id="freeRangeReturns" class="ror row"style="margin: 28px 0 0 0;">
+                                <input class="hidden" type="radio" id="ROR5" value="5" name="freeRangeROR" onchange="updateROR(5)" checked>
+                                <label class="rorRadio fWeight400" for="ROR5">5 %</label><br>
+                            
+                                <input class="hidden" type="radio" id="ROR6" value="6" name="freeRangeROR" onchange="updateROR(6)">
+                                <label class="mLeft20 rorRadio fWeight400" for="ROR6">6 %</label><br>
+
+                                <input class="hidden" type="radio" id="ROR7" value="7" name="freeRangeROR" onchange="updateROR(7)">
+                                <label class="mLeft20 rorRadio fWeight400" for="ROR7">7 %</label><br>
+                            </div>
+                    </div>
+                </div>
+                
+                <div class="contentSecondaryContainer col" >
+                    <div class="content">
+                        <span class="fWeight700 heading">RETURNS (What I get back)</span>
+
+                        <div style="margin-top: 25px;" >
+                            <div class="row fWeight500">
+                                <span style="width: 140px">No. of assets</span><span class="fWeight700" id="cowTotal"></span>
+                            </div>
+                            <div class="row fWeight500" style="margin-top: 16px;">
+                                <span style="width: 140px; ">Total Years</span><span class="fWeight700" id="displayYears" ></span>
+                            </div>
+                        </div>
+        
+                        <span class="fWeight700" style="display: block; margin-top: 25px;">Total Investment</span>
+                        
+                        <div style="position: absolute; word-spacing: -7px;">
+                            <span class="numLarge fWeight700">R&nbsp;</span>
+                            <span class="numLarge fWeight700" id="totalInvestment"></span>
+                        </div>
+
+                        <div id="secondaryButtonContainer">
+                            <div class="row">
+                                <input class="buttonSecondary fWeight600" style="margin-right: 25px" id="showTblBtn" type="button" value="SEE DETAILS" onclick="toggleTable()" />
+    
+                                <button class="buttonSecondary fWeight600 row" id="shareBtn" type="button" value="" onclick=""><span>SHARE</span><img style="margin-left: 15px" srcset="img/Share.png 2x"/></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>     
+
+            <div id="tblContainer" class="columnCenter" >
+                <!-- table -->
+                <table id="detailsTbl" >
+                    <thead>
+                        <th>Year</th>
+                        <th>Total No. Assets</th>
+                        <th>Assets Purchased</th>
+                        <th>ROI</th>
+                        <th>Profit</th>
+                        <th>Investment Value</th>
+                    </thead>
+
+                    <tbody id="tblBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+            
+    <script>
+        var sliderCows = document.getElementById("rangeSliderCows");      
+        var sliderYears = document.getElementById("rangeSliderYears");      
+        var RORVal = 5;
+        var totalInvestment = document.getElementById("totalInvestment");
+        var displayYears = document.getElementById("displayYears");
+        var checkbox = document.getElementById("reInvestBox");
+        var sliderLabelCows = document.getElementsByClassName("sliderLabelCows")[0];
+        var sliderLabelYears = document.getElementsByClassName("sliderLabelYears")[0];
+
+        var cowText = document.getElementById("cowTotal");
+        var cashText = document.getElementById("cashInHand");
+
+        var detailsTbl = document.getElementById("detailsTbl");
+        var tblBody = document.getElementById("tblBody");
+
+        tblBody.innerHTML = "";
+
+        var tableHtml = "";
+        var numOfCowsInitial = sliderCows;
+        var selectedCowPrice = 0;
+        var selectedCow = "freeRange"; // freeRange or pregnant
+
+        var initialInvestText = document.getElementById("initailInvestText");
+
+        function setUp() {
+            selectCow(0)
+            checkbox.checked = true;
+            updateRangeVal() 
+        }
+
+        function updateRangeVal() {
+
+            var sliderCowsPos = (sliderCows.value-sliderCows.min)/(sliderCows.max-sliderCows.min)*100;
+            var sliderYearsPos = (sliderYears.value-sliderYears.min)/(sliderYears.max-sliderYears.min)*100;
+
+            sliderCows.style.background = 'linear-gradient(to right, #836030 0%, #836030 ' + sliderCowsPos + '%, #cccccc ' + sliderCowsPos + '%, #cccccc 100%)'
+            sliderYears.style.background = 'linear-gradient(to right, #836030 0%, #836030 ' + sliderYearsPos + '%, #cccccc ' + sliderYearsPos + '%, #cccccc 100%)'
+            
+            sliderLabelCows.innerHTML = sliderCows.value;
+            displayYears.innerHTML = sliderCows.value;
+
+            sliderLabelYears.innerHTML = sliderYears.value;
+            displayYears.innerHTML = sliderYears.value;
+
+            var initialInvestText = document.getElementById("initailInvestText");      
+            initialInvestText.innerHTML = numberWithWhiteSpace( numOfCowsInitial.value*selectedCowPrice );
+
+            if(selectedCow == "pregnant") {                
+                displayYears.innerHTML = (sliderYears.value/2);
+                sliderLabelYears.innerHTML = (sliderYears.value/2);
+            }
+
+            calculate()
+        }
+
+        function updateAssetVal() {
+            var initialInvestText = document.getElementById("initailInvestText");      
+            initialInvestText.innerHTML = numberWithWhiteSpace( numOfCowsInitial.value*selectedCowPrice );
+            calculate()
+        }
+
+        function updateROR(num) {
+            RORVal = num;
+            calculate();
+        }
+
+        function calculate() {
+    
+            var cowPrice = selectedCowPrice;
+            var investment = ( numOfCowsInitial.value * cowPrice );
+
+            var returnOnInvestment;
+            var leftOverMoney;
+            var initialInvestment = investment;
+            var totalInvestmentVal;
+            var totalCows;
+            var currentProfit;
+            var totalWorth;
+
+            tableHtml = "";
+            
+            var investTime = sliderYears.value;
+
+            if(selectedCow == "pregnant") {
+                investTime = (investTime/2);
+            }
+            
+
+            if(selectedCow == "pregnant") {
+                investTime = (investTime*2);
+            }
+            
+
+            for(var i=0; i < (investTime); i++) { 
+
+                let assetsThisYear = 0;
+                
+
+                if(i==0) {
+                    
+                    assetsThisYear = parseInt(initialInvestment/cowPrice);
+                    totalCows = assetsThisYear;
+
+                    leftOverMoney = parseInt ( ( (initialInvestment/cowPrice) - totalCows )*cowPrice);
+
+                    returnOnInvestment = (RORVal/100)*initialInvestment;
+                    
+                    currentProfit = returnOnInvestment+leftOverMoney;
+                    currentProfit = parseInt(currentProfit);
+
+                    leftOverMoney = 0;
+                    
+                    totalWorth = (parseInt(initialInvestment)+parseInt(returnOnInvestment));
+
+                }
+                else {
+
+                    if(checkbox.checked) {
+
+                        if( (currentProfit/cowPrice) >= 1) {
+
+                            assetsThisYear = parseInt(currentProfit/cowPrice);                            
+
+                            totalCows += assetsThisYear;
+
+                            currentProfit = (currentProfit - (parseInt(currentProfit/cowPrice)*cowPrice));
+                            currentProfit.toFixed(2);
+
+                        }
+
+                    }
+
+                    returnOnInvestment = (RORVal/100)*(totalCows*cowPrice);
+                    returnOnInvestment = parseInt(returnOnInvestment);
+
+                    currentProfit = parseInt(currentProfit)+returnOnInvestment;
+
+                    totalWorth = totalWorth+returnOnInvestment;
+
+                }
+
+                var year = (i+1);
+
+                if(selectedCow == "pregnant") {
+                    year = (year/2);
+                }
+
+                tableHtml += `<tr>
+                            <td>${year}</td> 
+                            <td>${totalCows}</td>
+                            <td>${assetsThisYear}</td>
+                            <td>R ${numberWithCommas(returnOnInvestment)}</td>
+                            <td>R ${numberWithCommas(currentProfit)}</td>
+                            <td>R ${numberWithCommas(totalWorth)}</td>
+                        </tr>`;
+
+            }
+
+            totalInvestment.innerHTML = numberWithWhiteSpace(totalWorth);
+
+            cowText.innerHTML = totalCows;
+            tblBody.innerHTML = tableHtml;
+
+        }
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function numberWithWhiteSpace(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+
+        function toggleTable() {
+            // detailsTbl
+            var tableDisplayVal = document.getElementById("detailsTbl").style.display;
+
+            if(!tableDisplayVal || tableDisplayVal == "none" ) {
+                document.getElementById("detailsTbl").style.display = "table";
+
+                if( window.outerWidth < 721)
+                {
+                    document.getElementById("container").style.height = "1340px";
+                }
+                else
+                {
+                    document.getElementById("container").style.height = "968px";
+                }
+            }
+            else {
+                document.getElementById("detailsTbl").style.display = "none";
+
+                if( window.outerWidth < 721 )
+                {
+                    document.getElementById("container").style.height = "1040px";
+                }
+                else
+                {
+                    document.getElementById("container").style.height = "668px";
+                }
+            }
+        }
+
+        function selectCow(num) {            
+            var freeRangeReturns = document.getElementById("freeRangeReturns");
+            var pregnantReturns = document.getElementById("pregnantReturns");
+
+            var freeRangeReturns = document.getElementById("freeRangeReturns");
+            var pregnantReturns = document.getElementById("pregnantReturns");
+
+            if(num == 0) {
+                selectedCowPrice = 18730;
+                selectedCow = "freeRange";
+
+                RORVal = 5;
+                document.getElementById("ROR5").checked = true;
+
+                initialInvestText.innerHTML = numberWithWhiteSpace((selectedCowPrice * numOfCowsInitial.value));
+
+                pregnantReturns.style.display = "none";
+                pregnantReturns.style.display = "none";
+
+                freeRangeReturns.style.display = "";
+                freeRangeReturns.style.display = "";
+            }
+            else if(num == 1) {
+                selectedCowPrice = 11529;
+                selectedCow = "pregnant";
+
+                RORVal = 10;
+                document.getElementById("ROR10").checked = true;
+
+                initialInvestText.innerHTML = numberWithWhiteSpace((selectedCowPrice * numOfCowsInitial.value));
+
+                freeRangeReturns.style.display = "none";
+                freeRangeReturns.style.display = "none";
+
+                pregnantReturns.style.display = "";
+                pregnantReturns.style.display = "";
+
+                updateRangeVal()
+            }
+            else {
+                console.log('what happened?');
+                
+            }
+            
+            calculate();
+        }
+
+        setUp();
+
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+
+            font-size: 13px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        @media only screen and (min-width: 880px) {
+            #container {
+                height: 668px;
+                width: 850px;
+            }
+
+            .row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                flex-wrap: nowrap;
+            }
+
+            .contentPrimaryContainer{
+                width: 57%;
+                background-color: white;
+            }
+            
+            .contentSecondaryContainer{
+                width: 43%;
+                background-color: #FEEEDB;
+            }
+
+            #chooseAProductText{
+                width: 60%;
+                font-size: 13px;
+            }
+
+            .cowRadio{
+                font-size: 13px;
+                padding: 7px 10px;
+                border-radius: 15px;
+            }
+
+            #secondaryButtonContainer{
+                margin-top: 350px;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            #detailsTbl tr th {
+                background-color: #eaeaea;
+                font-weight: 900;
+                height: 70px;
+                padding: 20px;
+            }
+
+            #detailsTbl {
+                font-size: 13px;
+            }
+        }
+
+        @media only screen and (max-width: 880px) {
+            #container {
+                height: 1040px;
+                width: 500px;
+            }
+
+            .row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            .contentPrimaryContainer{
+                width: 100%;
+                background-color: white;
+            }
+            
+            .contentSecondaryContainer{
+                width: 100%;
+                background-color: #FEEEDB;
+            }
+
+            #chooseAProductText{
+                width: 40%;
+                font-size: 10px;
+            }
+
+            .cowRadio{
+                font-size: 11px;
+                padding: 7px 10px;
+                border-radius: 15px;
+            }
+
+            #secondaryButtonContainer{
+                margin-top: 120px;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            #detailsTbl tr th {
+                background-color: #eaeaea;
+                font-size: 10px;
+                font-weight: 900;
+                padding: 10px;
+            }
+
+            #detailsTbl td{
+                font-size: 11px;
+            }
+        }
+
+        #investCal {
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #container {
+            margin: 20px auto 0 auto;
+            background-color: #FEEEDB;
+            box-shadow: 0px 0px 30px 15px #00000010;
+
+        }
+
+        #sidePanel {
+
+            height: 40px;
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            transform: rotate(270deg);
+        }
+
+        #putInPanel {
+
+            width: 430px;
+            height: 40px;
+            font-size: 1.8em;
+            text-align: center;
+            margin-top: -420px;
+            border-bottom: 1px solid #CDA376;
+        }
+
+        #getOutPanel {
+
+            width: 520px;
+            height: 40px;
+            font-size: 1.8em;
+            text-align: center;
+            margin-top: -420px;
+            border-bottom: 1px solid #CDA376;
+
+        }
+
+        #header {
+            width: 100%;
+            height: 100px;
+
+            color: white;
+            background-color: #836030;
+        }
+
+        #secondaryButtonContainer input{
+            cursor: pointer
+        }
+
+        /* Flex Presets */
+
+        .col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Presets */
+
+        /* Font Weight Presets */
+        .fWeight400
+        {
+            font-weight: 400;
+        }
+
+        .fWeight500
+        {
+            font-weight: 500;
+        }
+
+        .fWeight600
+        {
+            font-weight: 600;
+        }
+
+        .fWeight700
+        {
+            font-weight: 700;
+        }
+
+        /* Margin Presets */
+        .mLeft10 {
+            margin-left: 10px;
+        }
+
+        .mLeft20 {
+            margin-left: 20px;
+        }
+
+        .mLeft30 {
+            margin-left: 30px;
+        }
+
+        .mLeft40 {
+            margin-left: 40px;
+        }
+
+        .mLeft50 {
+            margin-left: 50px;
+        }
+
+        .mTop10 {
+            margin-top: 10px;
+        }
+
+        .mTop20 {
+            margin-top: 20px;
+        }
+
+        .mTop30 {
+            margin-top: 30px;
+        }
+
+        .mTop40 {
+            margin-top: 40px;
+        }
+
+        .mTop50 {
+            margin-top: 50px;
+        }
+
+        /* Display Presets*/
+        .hidden {
+            display: none;
+        }
+        /* End Of Presets */
+
+        .heading {
+            color: #836030;
+        }
+
+        .subHeading {
+            color: #836030;
+        }
+
+        .bigTitle {
+            font-size: 3em;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .numLarge{
+            font-size: 59px;
+            display: inline-block;
+        }
+
+        .btnWrapper {
+            margin-bottom: 20px;
+        }
+
+        .calBtn {
+
+            width: 120px;
+            height: 40px;
+            border: 2px solid black;
+            border-radius: 30px;
+            background-color: #FEEEDB;
+            color: black;
+        }
+
+        .calBtn:hover {
+            background-color: black;
+            color: white;
+        }
+
+        .content{
+            width: 85%;
+            margin: 40px 0 30px 0;
+        }
+
+        .rowSpaceBetween {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+
+        .columnCenter {
+            display: flex;
+            justify-content: center;
+        }
+
+        .customRow {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .subTitleLabel {
+            font-size: 1.3em;
+        }
+
+        .inputLabels {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .customInput {
+            width: 280px;
+            height: 60px;
+            border: none;
+            border-radius: 8px;
+            background-color: white;
+            padding-left: 15px;
+            font-size: 2em;
+        }
+
+        .buttonSecondary{
+            padding: 0 20px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: #836030;
+            font-size: 13px;
+            color: white;
+            outline:none;
+            border: none;
+        }
+
+        #tblContainer {
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        #detailsTbl {
+            width: 100%;
+            height: 300px;
+            overflow-y: auto;
+            border-collapse: collapse;
+            display: none;
+        }
+
+        #detailsTbl tr{
+            height: 50px;
+            font-weight: 500;
+        }
+
+        #detailsTbl tr:nth-child(even){
+            background-color: #eaeaea;
+        }
+
+        #detailsTbl tr:nth-child(odd){
+            background-color: #fff;
+        }
+
+        #detailsTbl tr td {
+            text-align: center;
+        }
+        /* ------ check box --------  */
+
+        /* Customize the label (the container) */
+        .checkBoxContainer {
+            position: relative;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default checkbox */
+        .checkBoxContainer input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .check {
+            position: relative;
+            box-shadow: inset 0px 0px 0px 2px white;
+            height: 11px;
+            width: 11px;
+            border-radius: 50%;
+            border: 1.5px solid #836030;
+        }
+
+        .checkBoxContainer input:checked ~ .check{
+            background-color: #836030;
+        }
+
+        .divider {
+            
+            width: 100%;
+            height: 1px;
+            background-color: #e7e7e7;
+            display: block;
+        }
+
+        .sliderOuterContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 20px;
+            margin-top: 13px;
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 7px;
+            background: linear-gradient(to right, #836030 0%, #836030 50%, #cccccc 50%, #cccccc 100%);
+            outline: none;
+            opacity: 1;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider::-webkit-slider-thumb {
+            box-shadow: -3px 0px 5px 1px rgba(0, 0, 0, 0.233);
+
+            -webkit-appearance: none;
+            appearance: none;
+            width: 21px;
+            height: 21px;
+            background-color: #836030;
+            border-radius: 50%; 
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 21px;
+            height: 21px;
+            background-color: #836030;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+
+        /* Radio Buttons */
+
+        #header input[type="radio"]:checked + label{
+            font-weight: 600;
+            color: black;
+            background-color: white;
+        }
+
+        #header label{
+            cursor: pointer;
+        }
+
+        .rorRadio{
+            font-weight: 600;
+            padding: 22px 0;
+            text-align: center;
+            width: 60px;
+            border-radius: 15px;
+            background-color: #feeedb;
+        }
+        /* Radio Buttons */
+
+        .ror input[type="radio"]:checked + label{
+            font-weight: 600;
+            color: rgb(255, 255, 255);
+            background-color: #836030;
+        }
+
+        .ror label{
+            cursor: pointer;
+        }
+        
+
+
+    </style>
+
+</html>
